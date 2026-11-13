@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>東京お台場 行程表</title>
+<meta property="og:title" content="東京お台場 行程表">
+<meta property="og:description" content="海浜幕張 → 豊洲市場 → お台場 → 羽田（JAL463）｜15:25 ジョイポリス出口集合">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#103a5c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --keiyo:#c9252f; --rinkai:#1f5aa6; --yuri:#0b93ad; --walk:#a3adb9;
+  --spot:#e0761f; --bag:#2e8b57;
+  --bg:#f3f5f8; --card:#fff; --ink:#18212c; --sub:#5c6877; --faint:#8d97a4; --line:#e1e6ec;
+  --accent:#0f3d63; --accent-ink:#fff; --hd:#103a5c; --hd-ink:#fff;
+  --warn:#9a4a07; --warnbg:#fff4e2;
+  --tint:#eef3f8;
+  --num:"Barlow Condensed","Zen Kaku Gothic New",sans-serif;
+  --jp:"Zen Kaku Gothic New",-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+  --head:var(--jp);
+  --rail-w:4px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e141b; --card:#18212b; --ink:#e8edf2; --sub:#a2aebb; --faint:#73808e; --line:#2a3542;
+    --accent:#7cc4f2; --accent-ink:#0b1a28; --hd:#0b2236; --hd-ink:#eaf3fb;
+    --warn:#f3bd6b; --warnbg:#2b2214; --tint:#1c2a38;
+    --keiyo:#ef5a62; --rinkai:#5b93e0; --yuri:#3cc3d8; --walk:#5f6b78; --spot:#f29a4d; --bag:#5cc48a;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--jp);line-height:1.6;font-size:15px;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px}
+button{font:inherit;color:inherit}
+
+.hd{position:relative;background:var(--hd);color:var(--hd-ink);overflow:hidden}
+.hd .wrap{position:relative;z-index:1;padding-top:22px;padding-bottom:58px}
+.kicker{font-family:var(--num);font-weight:600;letter-spacing:.28em;font-size:12px;opacity:.75}
+.hd h1{margin:4px 0 0;font-family:var(--head);font-size:24px;line-height:1.3;letter-spacing:.06em;font-feature-settings:"palt";font-weight:700}
+.hd .route-sub{margin:6px 0 0;font-size:13px;opacity:.85;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hd .route-sub i{font-style:normal;opacity:.6}
+.bridge{position:absolute;right:-10px;bottom:20px;width:230px;height:86px;opacity:.22;z-index:0}
+.wave{position:absolute;left:0;right:0;bottom:-1px;width:100%;height:26px;z-index:0;color:var(--bg)}
+
+.hero{position:relative;z-index:2;margin-top:-40px;background:var(--card);border-radius:18px;padding:16px 18px 14px;
+  box-shadow:0 1px 2px rgba(10,30,50,.08),0 10px 30px rgba(10,30,50,.14);cursor:pointer}
+.nx-top{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.08em}
+.nx-top .lbl{font-family:var(--num);letter-spacing:.24em;font-size:12px}
+.nx-top .clock{margin-left:auto;font-family:var(--num);font-size:14px;letter-spacing:.04em;font-weight:600}
+.nx-main{display:flex;align-items:baseline;gap:12px;margin-top:2px}
+.nx-time{font-family:var(--num);font-weight:700;font-size:52px;line-height:1;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.nx-rel{font-weight:700;font-size:14px;padding:3px 10px;border-radius:99px;background:var(--accent);color:var(--accent-ink);white-space:nowrap}
+.nx-rel:empty{display:none}
+.nx-title{margin:6px 0 0;font-size:19px;font-weight:700;letter-spacing:.03em;line-height:1.35}
+.nx-meta{font-size:13.5px;color:var(--sub);margin-top:2px}
+.prog{display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.prog .pd{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.prog .pd.on{background:var(--c)}
+.prog .pd.cur{background:var(--c);opacity:.35}
+.prog .cnt{font-family:var(--num);font-weight:600;font-size:14px;color:var(--sub);margin-left:6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:28px 2px 6px}
+.sec-h h2{margin:0;font-size:15px;letter-spacing:.08em}
+.sec-h small{font-family:var(--num);letter-spacing:.24em;font-size:11px;color:var(--faint)}
+ol.route{list-style:none;margin:0;padding:0}
+.row{display:grid;grid-template-columns:46px 26px 1fr;column-gap:8px;position:relative}
+.time{font-family:var(--num);font-weight:700;font-size:20px;text-align:right;padding-top:14px;line-height:1;font-variant-numeric:tabular-nums}
+.rail{position:relative}
+.rail::before,.rail::after{content:"";position:absolute;left:50%;width:var(--rail-w);margin-left:calc(var(--rail-w) / -2)}
+.rail::before{top:0;height:24px;background:var(--in,transparent)}
+.rail::after{top:24px;bottom:0;background:var(--out,transparent)}
+.row.move .rail::before{height:100%;background:var(--out,transparent)}
+.row.move .rail::after{display:none}
+.dot{position:absolute;left:50%;top:24px;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;
+  background:var(--card);border:4px solid var(--c);z-index:1;display:grid;place-items:center}
+.row.spot .dot{width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:8px;border-width:4px}
+.dot svg{width:12px;height:12px;opacity:0}
+.row.done .dot{background:var(--c)}
+.row.done .dot svg{opacity:1}
+.row.next .dot{box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 22%,transparent)}
+@media (prefers-reduced-motion: no-preference){ .row.next .dot{animation:pulse 2s ease-in-out infinite} }
+@keyframes pulse{50%{box-shadow:0 0 0 10px color-mix(in srgb,var(--c) 6%,transparent)}}
+
+.card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px 12px;margin:6px 0 10px}
+.row.next .card{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c)}
+.row.done .card{opacity:.5}
+.row.done .time{color:var(--faint)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--c);letter-spacing:.04em}
+.sym{display:inline-grid;place-items:center;min-width:22px;height:18px;padding:0 4px;border-radius:4px;background:var(--c);color:#fff;
+  font-family:var(--num);font-size:12px;letter-spacing:.02em}
+.card h3{margin:3px 0 0;font-size:17px;line-height:1.35;letter-spacing:.02em;padding-right:44px}
+.meta{font-size:13.5px;color:var(--sub);margin-top:3px;padding-right:4px}
+.meta .stay{font-family:var(--num);font-weight:600;color:var(--ink);font-size:14px}
+.meta b{color:var(--ink)}
+.note{display:flex;gap:6px;margin-top:8px;font-size:13px;background:var(--warnbg);color:var(--warn);border-radius:8px;padding:7px 10px;line-height:1.5}
+.note svg{flex:none;width:15px;height:15px;margin-top:2px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.links a{display:inline-flex;align-items:center;gap:5px;min-height:40px;padding:0 12px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;
+  border:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.links a svg{width:16px;height:16px;flex:none;color:var(--c)}
+.links a.main{background:color-mix(in srgb,var(--c) 12%,var(--card));border-color:transparent;color:var(--c)}
+.chk{position:absolute;top:8px;right:8px;width:44px;height:44px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}
+.chk span{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;transition:background .15s,border-color .15s}
+.chk svg{width:16px;height:16px;opacity:0;color:#fff}
+.row.done .chk span{background:var(--c);border-color:var(--c)}
+.row.done .chk svg{opacity:1}
+.mv{font-size:13px;color:var(--sub);padding:6px 0 8px;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;line-height:1.5}
+.mv svg{width:15px;height:15px;color:var(--faint);flex:none}
+.mv a{display:inline-flex;align-items:center;min-height:32px;padding:0 10px;border-radius:99px;background:var(--tint);font-weight:700;font-size:12.5px;text-decoration:none;color:var(--ink)}
+.row.end .rail::after{display:none}
+.goal{font-family:var(--num);letter-spacing:.24em;font-size:11px;color:var(--faint);margin:2px 0 0 80px}
+
+.tips{list-style:none;margin:0;padding:6px 16px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.tips li{display:flex;gap:10px;padding:10px 0;font-size:14px;border-bottom:1px solid var(--line)}
+.tips li:last-child{border-bottom:0}
+.tips li b{flex:none;font-family:var(--num);font-weight:700;color:var(--accent);font-size:15px;width:18px}
+.reset{display:block;margin:22px auto 0;background:none;border:1px solid var(--line);color:var(--sub);border-radius:99px;min-height:44px;padding:0 18px;font-size:13px;cursor:pointer}
+.foot{height:60px}
+
+.nx-stub{display:none}
+
+/* ===== B 切符 ===== */
+body[data-d="B"]{
+  --bg:#f2ece0; --card:#fffaf0; --ink:#2a2620; --sub:#6a6156; --faint:#9a8f80; --line:#e0d5c3;
+  --accent:#b8332a; --accent-ink:#fff; --hd:transparent; --hd-ink:#2a2620; --tint:#ece3d2;
+  --warn:#8a4b12; --warnbg:#f7ead2;
+  --keiyo:#b8333b; --rinkai:#2d5a96; --yuri:#16849a; --walk:#b9ad9b; --spot:#c9711f; --bag:#4b8455;
+  --head:"Shippori Mincho",serif; --rail-w:2px;
+  background-image:radial-gradient(rgba(120,90,50,.06) 1px,transparent 1px);background-size:5px 5px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) body[data-d="B"]{
+  --bg:#1c1915; --card:#27231d; --ink:#efe7da; --sub:#bfb3a2; --faint:#8b8172; --line:#3b352c;
+  --accent:#e2675b; --accent-ink:#1c1915; --hd-ink:#efe7da; --tint:#332d25; --warn:#efc07a; --warnbg:#33281a;
+  --keiyo:#e46a70; --rinkai:#7aa3dc; --yuri:#4cc0d2; --walk:#6c6355; --spot:#eb9a52; --bag:#7cc28a;
+  background-image:radial-gradient(rgba(255,240,210,.035) 1px,transparent 1px);
+}}
+body[data-d="B"] .bridge,body[data-d="B"] .wave{display:none}
+body[data-d="B"] .hd .wrap{padding-top:26px;padding-bottom:14px;text-align:center}
+body[data-d="B"] .hd h1{font-size:27px;font-weight:800;letter-spacing:.14em}
+body[data-d="B"] .hd .route-sub{justify-content:center;color:var(--sub);opacity:1}
+body[data-d="B"] .kicker{color:var(--accent);opacity:1}
+body[data-d="B"] .hd .wrap::after{content:"";display:block;width:56px;height:2px;margin:14px auto 0;background:var(--accent);opacity:.7}
+body[data-d="B"] .hero{margin-top:10px;border-radius:10px;padding:0;display:grid;grid-template-columns:1fr 78px;overflow:hidden;
+  box-shadow:0 1px 0 var(--line),0 8px 22px rgba(80,55,20,.12);
+  -webkit-mask:radial-gradient(circle 9px at calc(100% - 78px) 0,#0000 98%,#000) top/100% 51% no-repeat,
+               radial-gradient(circle 9px at calc(100% - 78px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat;
+          mask:radial-gradient(circle 9px at calc(100% - 78px) 0,#0000 98%,#000) top/100% 51% no-repeat,
+               radial-gradient(circle 9px at calc(100% - 78px) 100%,#0000 98%,#000) bottom/100% 51% no-repeat}
+body[data-d="B"] .nx-body{padding:14px 16px 14px;border-top:6px solid var(--c)}
+body[data-d="B"] .nx-stub{display:flex;border-left:2px dashed var(--line);flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  background:color-mix(in srgb,var(--c) 9%,var(--card));border-top:6px solid var(--c);padding:8px 4px;text-align:center}
+body[data-d="B"] .nx-stub .s1{font-family:var(--num);letter-spacing:.2em;font-size:11px;color:var(--sub)}
+body[data-d="B"] .nx-stub .s2{font-family:var(--num);font-weight:700;font-size:26px;line-height:1;color:var(--c)}
+body[data-d="B"] .nx-stub .s3{font-size:11px;color:var(--sub)}
+body[data-d="B"] .nx-time{font-size:48px}
+body[data-d="B"] .nx-title{font-family:var(--head);font-size:21px;font-weight:800}
+body[data-d="B"] .nx-rel{background:none;color:var(--accent);border:1.5px solid var(--accent);padding:2px 9px}
+body[data-d="B"] .prog{border-top:1px dashed var(--line)}
+body[data-d="B"] .sec-h{justify-content:center;margin-top:30px}
+body[data-d="B"] .sec-h h2{font-family:var(--head);font-weight:800;letter-spacing:.2em;font-size:17px}
+body[data-d="B"] .dot{width:14px;height:14px;margin:-7px 0 0 -7px;border-width:3px}
+body[data-d="B"] .row.spot .dot{width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border-width:3px;
+  box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--c)}
+body[data-d="B"] .dot svg{display:none}
+body[data-d="B"] .row.next .dot{animation:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 25%,transparent)}
+body[data-d="B"] .card{border-radius:8px;border:1px solid var(--line);box-shadow:0 1px 0 rgba(80,55,20,.06)}
+body[data-d="B"] .row.train .card{border-top:4px solid var(--c);padding-right:64px;
+  background:linear-gradient(90deg,transparent calc(100% - 58px),var(--line) calc(100% - 58px) calc(100% - 57px),color-mix(in srgb,var(--c) 6%,var(--card)) calc(100% - 57px)) ,var(--card)}
+body[data-d="B"] .row.train .card h3{padding-right:0}
+body[data-d="B"] .row.train .links{margin-right:-50px}
+body[data-d="B"] .card h3{font-family:var(--head);font-weight:800;font-size:18px;letter-spacing:.06em}
+body[data-d="B"] .sym{border-radius:50%;min-width:20px;height:20px;padding:0}
+body[data-d="B"] .row.next .card{box-shadow:0 0 0 2px var(--c),0 6px 16px rgba(80,55,20,.12);border-color:transparent}
+body[data-d="B"] .row.train.next .card{border-top-color:var(--c)}
+body[data-d="B"] .chk span{border-radius:50%;border:1.5px dashed var(--faint);width:34px;height:34px}
+body[data-d="B"] .chk span::after{content:"済";font-family:"Shippori Mincho",serif;font-weight:800;font-size:15px;color:var(--faint);opacity:.55}
+body[data-d="B"] .chk svg{display:none}
+body[data-d="B"] .row.done .card{opacity:1}
+body[data-d="B"] .row.done .card > *:not(.chk){opacity:.45}
+body[data-d="B"] .row.done .chk span{background:none;border:2.5px solid var(--accent);transform:rotate(-14deg) scale(1.25)}
+body[data-d="B"] .row.done .chk span::after{color:var(--accent);opacity:.92;font-size:17px}
+body[data-d="B"] .links a{border-radius:6px;border-style:dashed}
+body[data-d="B"] .links a.main{border-style:solid}
+body[data-d="B"] .tips{border-radius:8px}
+body[data-d="B"] .tips li b{color:var(--accent);font-family:var(--head)}
+body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
+</style>
+</head>
+<body data-d="A">
+
+<header class="hd">
+  <svg class="bridge" viewBox="0 0 230 86" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+    <path d="M0 70 H230"/><path d="M60 70 V10 M66 70 V10 M160 70 V10 M166 70 V10" stroke-width="3"/>
+    <path d="M0 52 Q31 70 63 12 Q113 72 163 12 Q196 70 230 52"/>
+    <path d="M75 70 V44 M88 70 V56 M100 70 V62 M113 70 V64 M126 70 V62 M138 70 V56 M151 70 V44 M14 70 V58 M28 70 V56 M42 70 V44 M178 70 V44 M192 70 V56 M206 70 V58" stroke-width="1"/>
+  </svg>
+  <svg class="wave" viewBox="0 0 400 26" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 14 C40 4 80 4 120 12 S200 24 240 14 S320 2 360 10 S400 16 400 16 V26 H0Z"/></svg>
+  <div class="wrap">
+    <div class="kicker">DAY TRIP · TOKYO BAY</div>
+    <h1>東京お台場 行程表</h1>
+    <p class="route-sub">海浜幕張 <i>→</i> 豊洲市場 <i>→</i> お台場 <i>→</i> 羽田（JAL463）</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero" id="next" aria-live="polite"></section>
+
+  <div class="sec-h"><h2>きょうの道すじ</h2><small>ROUTE</small></div>
+  <ol class="route" id="route"></ol>
+  <div class="goal">GOAL</div>
+
+  <div class="sec-h"><h2>忘れないこと</h2><small>MEMO</small></div>
+  <ul class="tips">
+    <li><b>1</b><span>15:25までにジョイポリスを出る（羽田に16:30までに着くため）</span></li>
+    <li><b>2</b><span>帰る前に東京テレポート駅で荷物を受け取る（ジョイポリスから徒歩5分ほど）</span></li>
+    <li><b>3</b><span>「ごろ」「約」の時刻は目安です。当日は乗換アプリで確認を</span></li>
+    <li><b>4</b><span>交通系ICカードの残高をチェック</span></li>
+  </ul>
+  <button class="reset" id="reset">チェックをすべて外す</button>
+  <div class="foot"></div>
+</div>
+
+<script>
+(function(){
+  var G='https://www.google.com/maps/';
+  function q(s){return encodeURIComponent(s)}
+  function place(s){return G+'search/?api=1&query='+q(s)}
+  function dir(a,b,m){return G+'dir/?api=1&origin='+q(a)+'&destination='+q(b)+'&travelmode='+(m||'transit')}
+
+  var LINES={
+    keiyo:{name:'JR京葉線',sym:'JE',c:'var(--keiyo)'},
+    rinkai:{name:'りんかい線',sym:'R',c:'var(--rinkai)'},
+    yuri:{name:'ゆりかもめ',sym:'U',c:'var(--yuri)'},
+    mono:{name:'東京モノレール',sym:'MO',c:'#2c6fb7'},
+    jal:{name:'JAL',sym:'JL',c:'#c8102e'},
+    walk:{c:'var(--walk)',dash:true}
+  };
+  var ROWS=[
+    {t:'09:21',kind:'train',line:'keiyo',seg:'keiyo',title:'海浜幕張駅 発',meta:'東京行き → 新木場で下車（9:46ごろ着）',
+      links:[['map','駅の地図',place('海浜幕張駅')],['route','経路を調べる',dir('海浜幕張駅','東京テレポート駅')]]},
+    {move:1,seg:'walk',icon:'walk',text:'新木場駅でりんかい線に乗り換え（徒歩3分）'},
+    {t:'09:52',kind:'train',line:'rinkai',seg:'rinkai',title:'新木場駅 発',meta:'東京テレポート駅で下車（約7分）',
+      links:[['map','駅の地図',place('新木場駅')]]},
+    {t:'10:00',kind:'bag',seg:'walk',title:'東京テレポート駅 着',meta:'駅のコインロッカーに荷物を預ける',
+      links:[['map','駅の地図',place('東京テレポート駅')],['doc','駅の構内図','https://www.ecomo-rakuraku.jp/ja/station/%E6%9D%B1%E4%BA%AC%E3%83%86%E3%83%AC%E3%83%9D%E3%83%BC%E3%83%88/']]},
+    {move:1,seg:'walk',icon:'walk',text:'青海駅まで歩く（約10分）',link:['徒歩ルート',dir('東京テレポート駅','青海駅 ゆりかもめ','walking')]},
+    {t:'10:22',kind:'train',line:'yuri',seg:'yuri',title:'青海駅 発',meta:'豊洲行 → 市場前駅で下車（約11分）',
+      links:[['map','駅の地図',place('青海駅 ゆりかもめ')],['route','経路',dir('青海駅 ゆりかもめ','市場前駅')]]},
+    {t:'10:35',kind:'spot',seg:'yuri',title:'豊洲市場',stay:'〜12:05',meta:'早めの昼食、空き時間に食べ歩き<br>飲食店：水産仲卸売場棟3F・管理施設棟3F・青果棟1F<br>物販「魚がし横丁」：水産仲卸売場棟4F',
+      note:'日曜・祝日・休市日はお休み。飲食店は14時ごろ閉店の店が多いです。',
+      links:[['map','地図',place('豊洲市場')],['doc','館内マップ','https://www.shijou.metro.tokyo.lg.jp/documents/d/shijou/pamphlet-japan'],['info','見学案内','https://www.shijou.metro.tokyo.lg.jp/toyosu/kenngaku/index.html'],['cal','休市日','https://www.shijou.metro.tokyo.lg.jp/']]},
+    {move:1,seg:'yuri',icon:'train',text:'市場前駅 12:10ごろ発 ゆりかもめ 新橋行 → お台場海浜公園駅（約15分）→ 徒歩2分',link:['経路',dir('市場前駅','東京ジョイポリス')]},
+    {t:'12:30',kind:'spot',seg:'walk',stay:'〜15:25',title:'東京ジョイポリス',meta:'デックス東京ビーチ 3〜5F（入口は3F）',
+      note:'営業時間は時期によって変わります。館内は電波が入りにくい所があるので、入る前に待ち時間マップを開いておくと安心です。',
+      links:[['clock','待ち時間・フロアマップ','https://tokyo-joypolis.com/floor/'],['info','公式サイト','https://tokyo-joypolis.com/'],['map','地図',place('東京ジョイポリス')],['doc','デックス館内','https://odaiba-decks.com/']]},
+    {move:1,seg:'walk',icon:'walk',text:'15:25までにジョイポリスを出て、東京テレポート駅まで歩く（約5分）',link:['徒歩ルート',dir('東京ジョイポリス','東京テレポート駅','walking')]},
+    {t:'15:35',kind:'pick',seg:'rinkai',title:'東京テレポート駅 荷物の受け取り',meta:'コインロッカーから荷物を出す',
+      links:[['map','駅の地図',place('東京テレポート駅')]]},
+    {t:'15:45',kind:'train',line:'rinkai',seg:'walk',title:'東京テレポート駅 発',meta:'大崎・新宿方面 → 天王洲アイル駅で下車（約5分）',
+      links:[['route','羽田までの経路',dir('東京テレポート駅','羽田空港第1ターミナル駅')]]},
+    {move:1,seg:'walk',icon:'walk',text:'天王洲アイル駅で東京モノレールに乗り換え（徒歩5分ほど）'},
+    {t:'16:00',kind:'train',line:'mono',seg:'mono',title:'天王洲アイル駅 発',meta:'羽田空港方面 → 羽田空港第1ターミナル駅で下車（約17分）',
+      links:[['map','駅の地図',place('天王洲アイル駅 東京モノレール')]]},
+    {t:'16:20',kind:'air',seg:'jal',title:'羽田空港 第1ターミナル 着',meta:'<b>16:30までに到着（余裕10分）</b><br>JALのカウンター・保安検査場へ',
+      note:'荷物を預ける・保安検査には締切時刻があります。時間はJALの案内で確認を。',
+      links:[['map','地図',place('羽田空港 第1ターミナル')],['info','JAL公式','https://www.jal.co.jp/']]},
+    {t:'18:20',kind:'train',line:'jal',seg:null,title:'JAL463便 羽田 発',meta:'徳島行き → 徳島阿波おどり空港 19:35着（予定）',
+      links:[['info','JAL公式','https://www.jal.co.jp/']]}
+  ];
+  var KIND={spot:{name:'観光',c:'var(--spot)'},bag:{name:'荷物をあずける',c:'var(--bag)'},pick:{name:'荷物を受け取る',c:'var(--bag)'},air:{name:'空港',c:'#c8102e'}};
+
+  var IC={
+    check:'<path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    map:'<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0113 0c0 5-6.5 11-6.5 11z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/>',
+    route:'<circle cx="6" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 18H15a3 3 0 000-6H9a3 3 0 010-6h6.5" fill="none" stroke="currentColor" stroke-width="2"/>',
+    doc:'<path d="M7 3h7l4 4v14H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 12h5M10 16h5" stroke="currentColor" stroke-width="2"/>',
+    info:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="7.5" r="1.3" fill="currentColor"/>',
+    cal:'<rect x="4" y="5" width="16" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 10h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="2"/>',
+    clock:'<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    walk:'<circle cx="13" cy="4.5" r="2" fill="currentColor"/><path d="M10 21l2-6 3 3v3M12 15l-1-5 3-1 2 4h3M11 10l-3 2v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    train:'<rect x="6" y="3" width="12" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 11h12M9 21l1.5-4M15 21l-1.5-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    warn:'<path d="M12 3l10 18H2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="18" r="1.2" fill="currentColor"/>'
+  };
+  function ic(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+IC[n]+'</svg>'}
+  function segBg(k){ if(!k) return 'transparent'; var L=LINES[k];
+    return L.dash ? 'repeating-linear-gradient(to bottom,'+L.c+' 0 4px,transparent 4px 9px)' : L.c; }
+  function colorOf(r){ return r.kind==='train' ? LINES[r.line].c : KIND[r.kind].c; }
+  function hm(t){return t.replace(/^0/,'')}
+  function mins(s){var p=s.split(':');return +p[0]*60+ +p[1]}
+
+  var ol=document.getElementById('route'), html='', prev=null;
+  ROWS.forEach(function(r,i){
+    var inBg=segBg(prev), outBg=segBg(r.seg);
+    if(r.move){
+      html+='<li class="row move" style="--out:'+outBg+'"><div></div><div class="rail"></div><div class="mv">'+ic(r.icon)+'<span>'+r.text+'</span>'+
+        (r.link?'<a href="'+r.link[1]+'" target="_blank" rel="noopener">'+r.link[0]+'</a>':'')+'</div></li>';
+    } else {
+      var c=colorOf(r), badge;
+      if(r.kind==='train'){ var L=LINES[r.line]; badge='<span class="sym">'+L.sym+'</span>'+L.name; }
+      else badge=KIND[r.kind].name;
+      var links=r.links.map(function(l,j){return '<a class="'+(j===0?'main':'')+'" href="'+l[2]+'" target="_blank" rel="noopener">'+ic(l[0])+l[1]+'</a>'}).join('');
+      html+='<li class="row stop '+r.kind+(r.seg?'':' end')+'" data-t="'+r.t+'" style="--c:'+c+';--in:'+inBg+';--out:'+outBg+'">'+
+        '<div class="time">'+hm(r.t)+'</div><div class="rail"><span class="dot">'+ic('check')+'</span></div>'+
+        '<div class="card"><span class="badge">'+badge+'</span><h3>'+r.title+'</h3>'+
+        '<div class="meta">'+(r.stay?'<span class="stay">'+hm(r.t)+' '+r.stay+'</span>　':'')+r.meta+'</div>'+
+        (r.note?'<div class="note">'+ic('warn')+'<span>'+r.note+'</span></div>':'')+
+        '<div class="links">'+links+'</div>'+
+        '<button class="chk" aria-label="済みにする"><span>'+ic('check')+'</span></button></div></li>';
+    }
+    prev=r.seg;
+  });
+  ol.innerHTML=html;
+  [].forEach.call(document.querySelectorAll('.dot svg'),function(s){s.style.color='#fff'});
+
+  var KEY='odaiba-itinerary-done', done={};
+  try{ done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ done={}; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(done)); }catch(e){} }
+
+  var stops=[].slice.call(document.querySelectorAll('.row.stop'));
+  var stopData=ROWS.filter(function(r){return !r.move});
+  var nx=document.getElementById('next');
+
+  function render(){
+    var d=new Date(), nowM=d.getHours()*60+d.getMinutes();
+    var hh=Math.floor(nowM/60)+':'+('0'+nowM%60).slice(-2);
+    var nextI=-1, cnt=0;
+    stops.forEach(function(el,i){
+      var t=el.dataset.t, isDone=!!done[t];
+      el.classList.toggle('done',isDone); el.classList.remove('next');
+      if(isDone) cnt++; else if(nextI<0) nextI=i;
+    });
+    var prog='<div class="prog">'+stopData.map(function(r,i){
+      return '<span class="pd'+(done[r.t]?' on':'')+(i===nextI?' cur':'')+'" style="--c:'+colorOf(r)+'"></span>'}).join('')+
+      '<span class="cnt">'+cnt+' / '+stops.length+'</span></div>';
+    if(nextI>=0){
+      var el=stops[nextI], r=stopData[nextI]; el.classList.add('next');
+      var diff=mins(r.t)-nowM;
+      var rel = diff>0 && diff<180 ? 'あと'+diff+'分' : (diff<=0 && diff>-60 ? '時刻をすぎました' : '');
+      var lineTxt = r.kind==='train' ? LINES[r.line].name : KIND[r.kind].name;
+      nx.style.setProperty('--c',colorOf(r));
+      nx.innerHTML=
+        '<div class="nx-body">'+
+        '<div class="nx-top"><span class="lbl">NEXT</span>つぎ<span class="clock">いま '+hh+'</span></div>'+
+        '<div class="nx-main"><span class="nx-time">'+hm(r.t)+'</span><span class="nx-rel">'+rel+'</span></div>'+
+        '<h2 class="nx-title">'+r.title+'</h2>'+
+        '<div class="nx-meta">'+lineTxt+'　'+r.meta.split('<br>')[0].replace(/<[^>]+>/g,'')+'</div>'+prog+'</div>'+
+        '<div class="nx-stub"><span class="s1">LINE</span><span class="s2">'+(r.kind==='train'?LINES[r.line].sym:'★')+'</span><span class="s3">'+lineTxt+'</span></div>';
+    } else {
+      nx.style.setProperty('--c','var(--bag)');
+      nx.innerHTML='<div class="nx-body"><div class="nx-top"><span class="lbl">GOAL</span>おつかれさまでした<span class="clock">いま '+hh+'</span></div>'+
+        '<h2 class="nx-title">すべて済みました</h2><div class="nx-meta">気をつけて帰ってね。</div>'+prog+'</div><div class="nx-stub"><span class="s2">✓</span></div>';
+    }
+  }
+  stops.forEach(function(el){
+    el.querySelector('.chk').addEventListener('click',function(){ var t=el.dataset.t; done[t]=!done[t]; save(); render(); });
+  });
+  nx.addEventListener('click',function(){ var n=document.querySelector('.row.next'); if(n) n.scrollIntoView({behavior:'smooth',block:'center'}); });
+  document.getElementById('reset').addEventListener('click',function(){ done={}; save(); render(); });
+  render(); setInterval(render,30000);
+})();
+</script>
+</body>
+</html>
