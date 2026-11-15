@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>東京お台場 行程表</title>
 <meta property="og:title" content="東京お台場 行程表">
-<meta property="og:description" content="海浜幕張 → 豊洲市場 → お台場 → 羽田（JAL463）｜15:25 ジョイポリス出口集合">
+<meta property="og:description" content="海浜幕張 → 豊洲市場 → お台場 → 羽田（JAL463）｜15:30 ジョイポリス出口集合">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#103a5c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -220,7 +220,7 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
 
   <div class="sec-h"><h2>忘れないこと</h2><small>MEMO</small></div>
   <ul class="tips">
-    <li><b>1</b><span>15:25までにジョイポリスを出る（羽田に16:30までに着くため）</span></li>
+    <li><b>1</b><span>15:30までにジョイポリスを出る（16:00のリムジンバスに乗るため）</span></li>
     <li><b>2</b><span>帰る前に東京テレポート駅で荷物を受け取る（ジョイポリスから徒歩5分ほど）</span></li>
     <li><b>3</b><span>「ごろ」「約」の時刻は目安です。当日は乗換アプリで確認を</span></li>
     <li><b>4</b><span>交通系ICカードの残高をチェック</span></li>
@@ -242,6 +242,7 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
     yuri:{name:'ゆりかもめ',sym:'U',c:'var(--yuri)'},
     mono:{name:'東京モノレール',sym:'MO',c:'#2c6fb7'},
     jal:{name:'JAL',sym:'JL',c:'#c8102e'},
+    bus:{name:'リムジンバス',sym:'B',c:'#6b4fa0'},
     walk:{c:'var(--walk)',dash:true}
   };
   var ROWS=[
@@ -259,17 +260,16 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
       note:'日曜・祝日・休市日はお休み。飲食店は14時ごろ閉店の店が多いです。',
       links:[['map','地図',place('豊洲市場')],['doc','館内マップ','https://www.shijou.metro.tokyo.lg.jp/documents/d/shijou/pamphlet-japan'],['info','見学案内','https://www.shijou.metro.tokyo.lg.jp/toyosu/kenngaku/index.html'],['cal','休市日','https://www.shijou.metro.tokyo.lg.jp/']]},
     {move:1,seg:'yuri',icon:'train',text:'市場前駅 12:10ごろ発 ゆりかもめ 新橋行 → お台場海浜公園駅（約15分）→ 徒歩2分',link:['経路',dir('市場前駅','東京ジョイポリス')]},
-    {t:'12:30',kind:'spot',seg:'walk',stay:'〜15:25',title:'東京ジョイポリス',meta:'デックス東京ビーチ 3〜5F（入口は3F）',
+    {t:'12:30',kind:'spot',seg:'walk',stay:'〜15:30',title:'東京ジョイポリス',meta:'デックス東京ビーチ 3〜5F（入口は3F）',
       note:'営業時間は時期によって変わります。館内は電波が入りにくい所があるので、入る前に待ち時間マップを開いておくと安心です。',
       links:[['clock','待ち時間・フロアマップ','https://tokyo-joypolis.com/floor/'],['info','公式サイト','https://tokyo-joypolis.com/'],['map','地図',place('東京ジョイポリス')],['doc','デックス館内','https://odaiba-decks.com/']]},
-    {move:1,seg:'walk',icon:'walk',text:'15:25までにジョイポリスを出て、東京テレポート駅まで歩く（約5分）',link:['徒歩ルート',dir('東京ジョイポリス','東京テレポート駅','walking')]},
-    {t:'15:35',kind:'pick',seg:'rinkai',title:'東京テレポート駅 荷物の受け取り',meta:'コインロッカーから荷物を出す',
+    {move:1,seg:'walk',icon:'walk',text:'15:30までにジョイポリスを出て、東京テレポート駅まで歩く（約5分）',link:['徒歩ルート',dir('東京ジョイポリス','東京テレポート駅','walking')]},
+    {t:'15:35',kind:'pick',seg:'walk',title:'東京テレポート駅 荷物の受け取り',meta:'コインロッカーから荷物を出す',
       links:[['map','駅の地図',place('東京テレポート駅')]]},
-    {t:'15:45',kind:'train',line:'rinkai',seg:'walk',title:'東京テレポート駅 発',meta:'大崎・新宿方面 → 天王洲アイル駅で下車（約5分）',
-      links:[['route','羽田までの経路',dir('東京テレポート駅','羽田空港第1ターミナル駅')]]},
-    {move:1,seg:'walk',icon:'walk',text:'天王洲アイル駅で東京モノレールに乗り換え（徒歩5分ほど）'},
-    {t:'16:00',kind:'train',line:'mono',seg:'mono',title:'天王洲アイル駅 発',meta:'羽田空港方面 → 羽田空港第1ターミナル駅で下車（約17分）',
-      links:[['map','駅の地図',place('天王洲アイル駅 東京モノレール')]]},
+    {move:1,seg:'walk',icon:'walk',text:'グランドニッコー東京台場のバス乗り場まで歩く（約12分）',link:['徒歩ルート',dir('東京テレポート駅','グランドニッコー東京台場','walking')]},
+    {t:'16:00',kind:'train',line:'bus',seg:'bus',title:'グランドニッコー東京台場 発',meta:'リムジンバス 羽田空港行 → 羽田空港第1ターミナル（16:20着予定）／大人1,000円',
+      note:'道路が混むと遅れることがあります。次の便は17:00発で、16:30に間に合いません。予約しておくと安心です。',
+      links:[['clock','時刻表・予約','https://www.limousinebus.co.jp/ja/timetable/detail/Haneda-AriakeDaibaBigSight/?dir=2'],['map','乗り場の地図',place('グランドニッコー東京台場')]]},
     {t:'16:20',kind:'air',seg:'jal',title:'羽田空港 第1ターミナル 着',meta:'<b>16:30までに到着（余裕10分）</b><br>JALのカウンター・保安検査場へ',
       note:'荷物を預ける・保安検査には締切時刻があります。時間はJALの案内で確認を。',
       links:[['map','地図',place('羽田空港 第1ターミナル')],['info','JAL公式','https://www.jal.co.jp/']]},
