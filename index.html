@@ -101,6 +101,14 @@ ol.route{list-style:none;margin:0;padding:0}
 .meta{font-size:13.5px;color:var(--sub);margin-top:3px;padding-right:4px}
 .meta .stay{font-family:var(--num);font-weight:600;color:var(--ink);font-size:14px}
 .meta b{color:var(--ink)}
+.fare{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13.5px;font-weight:700;background:var(--tint);border-radius:8px;padding:5px 10px}
+.fare b{font-family:var(--num);font-size:17px;color:var(--c)}
+.fares{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}
+.fares th,.fares td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left}
+.fares td.y{text-align:right;font-family:var(--num);font-weight:700;font-size:16px;white-space:nowrap}
+.fares tr.sum td{background:var(--tint);font-weight:700}
+.fares small{display:block;color:var(--sub);font-size:12px;font-weight:400}
+.fare-note{font-size:12.5px;color:var(--sub);margin:8px 2px 0;line-height:1.6}
 .note{display:flex;gap:6px;margin-top:8px;font-size:13px;background:var(--warnbg);color:var(--warn);border-radius:8px;padding:7px 10px;line-height:1.5}
 .note svg{flex:none;width:15px;height:15px;margin-top:2px}
 .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
@@ -218,6 +226,17 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
   <ol class="route" id="route"></ol>
   <div class="goal">GOAL</div>
 
+  <div class="sec-h"><h2>きっぷ代まとめ（大人）</h2><small>FARE</small></div>
+  <table class="fares">
+    <tr><td>① JR京葉線<small>海浜幕張 → 新木場</small></td><td class="y">440円</td></tr>
+    <tr><td>② りんかい線<small>新木場 → 東京テレポート</small></td><td class="y">280円</td></tr>
+    <tr><td>③ ゆりかもめ<small>青海 → 市場前</small></td><td class="y">260円</td></tr>
+    <tr><td>④ ゆりかもめ<small>市場前 → お台場海浜公園</small></td><td class="y">330円</td></tr>
+    <tr><td>⑤ リムジンバス<small>グランドニッコー東京台場 → 羽田空港</small></td><td class="y">1,000円</td></tr>
+    <tr class="sum"><td>合計</td><td class="y">2,310円</td></tr>
+  </table>
+  <p class="fare-note">・①と②は会社が違います。海浜幕張で東京テレポートまでのきっぷ（720円）が買えないときは、新木場まで440円を買い、新木場の乗り換え口でりんかい線のきっぷ（280円）を買ってください。<br>・小学生はきっぷがほぼ半額です。<br>・SuicaなどのICカードなら、きっぷを買わずにそのまま乗れます（運賃は数円安くなります）。<br>・リムジンバスは予約するか、乗るときに払います。</p>
+
   <div class="sec-h"><h2>忘れないこと</h2><small>MEMO</small></div>
   <ul class="tips">
     <li><b>1</b><span>15:30までにジョイポリスを出る（16:00のリムジンバスに乗るため）</span></li>
@@ -246,20 +265,20 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
     walk:{c:'var(--walk)',dash:true}
   };
   var ROWS=[
-    {t:'09:21',kind:'train',line:'keiyo',seg:'keiyo',title:'海浜幕張駅 発',meta:'東京行き → 新木場で下車（9:46ごろ着）',
+    {t:'09:21',kind:'train',line:'keiyo',seg:'keiyo',title:'海浜幕張駅 発',meta:'東京行き → 新木場で下車（9:46ごろ着）',fare:['440円','（新木場まで）'],
       links:[['map','駅の地図',place('海浜幕張駅')],['route','経路を調べる',dir('海浜幕張駅','東京テレポート駅')]]},
     {move:1,seg:'walk',icon:'walk',text:'新木場駅でりんかい線に乗り換え（徒歩3分）'},
-    {t:'09:52',kind:'train',line:'rinkai',seg:'rinkai',title:'新木場駅 発',meta:'東京テレポート駅で下車（約7分）',
+    {t:'09:52',kind:'train',line:'rinkai',seg:'rinkai',title:'新木場駅 発',meta:'東京テレポート駅で下車（約7分）',fare:['280円','（東京テレポートまで）'],
       links:[['map','駅の地図',place('新木場駅')]]},
     {t:'10:00',kind:'bag',seg:'walk',title:'東京テレポート駅 着',meta:'駅のコインロッカーに荷物を預ける',
       links:[['map','駅の地図',place('東京テレポート駅')],['doc','駅の構内図','https://www.ecomo-rakuraku.jp/ja/station/%E6%9D%B1%E4%BA%AC%E3%83%86%E3%83%AC%E3%83%9D%E3%83%BC%E3%83%88/']]},
     {move:1,seg:'walk',icon:'walk',text:'青海駅まで歩く（約10分）',link:['徒歩ルート',dir('東京テレポート駅','青海駅 ゆりかもめ','walking')]},
-    {t:'10:22',kind:'train',line:'yuri',seg:'yuri',title:'青海駅 発',meta:'豊洲行 → 市場前駅で下車（約11分）',
+    {t:'10:22',kind:'train',line:'yuri',seg:'yuri',title:'青海駅 発',meta:'豊洲行 → 市場前駅で下車（約11分）',fare:['260円','（市場前まで）'],
       links:[['map','駅の地図',place('青海駅 ゆりかもめ')],['route','経路',dir('青海駅 ゆりかもめ','市場前駅')]]},
     {t:'10:35',kind:'spot',seg:'yuri',title:'豊洲市場',stay:'〜12:05',meta:'早めの昼食、空き時間に食べ歩き<br>飲食店：水産仲卸売場棟3F・管理施設棟3F・青果棟1F<br>物販「魚がし横丁」：水産仲卸売場棟4F',
       note:'日曜・祝日・休市日はお休み。飲食店は14時ごろ閉店の店が多いです。',
       links:[['map','地図',place('豊洲市場')],['doc','館内マップ','https://www.shijou.metro.tokyo.lg.jp/documents/d/shijou/pamphlet-japan'],['info','見学案内','https://www.shijou.metro.tokyo.lg.jp/toyosu/kenngaku/index.html'],['cal','休市日','https://www.shijou.metro.tokyo.lg.jp/']]},
-    {move:1,seg:'yuri',icon:'train',text:'市場前駅 12:10ごろ発 ゆりかもめ 新橋行 → お台場海浜公園駅（約15分）→ 徒歩2分',link:['経路',dir('市場前駅','東京ジョイポリス')]},
+    {move:1,seg:'yuri',icon:'train',text:'市場前駅 12:10ごろ発 ゆりかもめ 新橋行 → お台場海浜公園駅（約15分）→ 徒歩2分　🎫きっぷ <b>330円</b>（お台場海浜公園まで）',link:['経路',dir('市場前駅','東京ジョイポリス')]},
     {t:'12:30',kind:'spot',seg:'walk',stay:'〜15:30',title:'東京ジョイポリス',meta:'デックス東京ビーチ 3〜5F（入口は3F）',
       note:'営業時間は時期によって変わります。館内は電波が入りにくい所があるので、入る前に待ち時間マップを開いておくと安心です。',
       links:[['clock','待ち時間・フロアマップ','https://tokyo-joypolis.com/floor/'],['info','公式サイト','https://tokyo-joypolis.com/'],['map','地図',place('東京ジョイポリス')],['doc','デックス館内','https://odaiba-decks.com/']]},
@@ -267,7 +286,7 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
     {t:'15:35',kind:'pick',seg:'walk',title:'東京テレポート駅 荷物の受け取り',meta:'コインロッカーから荷物を出す',
       links:[['map','駅の地図',place('東京テレポート駅')]]},
     {move:1,seg:'walk',icon:'walk',text:'グランドニッコー東京台場のバス乗り場まで歩く（約12分）',link:['徒歩ルート',dir('東京テレポート駅','グランドニッコー東京台場','walking')]},
-    {t:'16:00',kind:'train',line:'bus',seg:'bus',title:'グランドニッコー東京台場 発',meta:'リムジンバス 羽田空港行 → 羽田空港第1ターミナル（16:20着予定）／大人1,000円',
+    {t:'16:00',kind:'train',line:'bus',seg:'bus',title:'グランドニッコー東京台場 発',meta:'リムジンバス 羽田空港行 → 羽田空港第1ターミナル（16:20着予定）',fare:['1,000円','（羽田空港まで・小学生以下500円）'],
       note:'道路が混むと遅れることがあります。次の便は17:00発で、16:30に間に合いません。予約しておくと安心です。',
       links:[['clock','時刻表・予約','https://www.limousinebus.co.jp/ja/timetable/detail/Haneda-AriakeDaibaBigSight/?dir=2'],['map','乗り場の地図',place('グランドニッコー東京台場')]]},
     {t:'16:20',kind:'air',seg:'jal',title:'羽田空港 第1ターミナル 着',meta:'<b>16:30までに到着（余裕10分）</b><br>JALのカウンター・保安検査場へ',
@@ -312,6 +331,7 @@ body[data-d="B"] .goal{font-family:var(--head);letter-spacing:.3em}
         '<div class="time">'+hm(r.t)+'</div><div class="rail"><span class="dot">'+ic('check')+'</span></div>'+
         '<div class="card"><span class="badge">'+badge+'</span><h3>'+r.title+'</h3>'+
         '<div class="meta">'+(r.stay?'<span class="stay">'+hm(r.t)+' '+r.stay+'</span>　':'')+r.meta+'</div>'+
+        (r.fare?'<div class="fare">🎫 きっぷ <b>'+r.fare[0]+'</b>'+r.fare[1]+'</div>':'')+
         (r.note?'<div class="note">'+ic('warn')+'<span>'+r.note+'</span></div>':'')+
         '<div class="links">'+links+'</div>'+
         '<button class="chk" aria-label="済みにする"><span>'+ic('check')+'</span></button></div></li>';
